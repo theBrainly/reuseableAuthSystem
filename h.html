@@ -1,0 +1,142 @@
+# Creating an HTML file with the documentation content
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication System Documentation</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; padding: 20px; background-color: #f4f4f4; }
+        h1, h2, h3 { color: #333; }
+        code { background-color: #eee; padding: 2px 4px; border-radius: 4px; }
+        pre { background: #eee; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Authentication System - Reusable Auth Module</h1>
+
+        <h2>📌 Project Overview</h2>
+        <p>This project implements a <strong>reusable authentication module</strong> using the MERN stack. It includes <strong>session-based authentication</strong> with Google OAuth and provides a scalable structure for future integrations.</p>
+
+        <h2>🛠️ Tech Stack Used</h2>
+        <ul>
+            <li><strong>Backend:</strong> Node.js, Express.js, MongoDB, Mongoose</li>
+            <li><strong>Authentication:</strong> Passport.js (Google OAuth), express-session</li>
+            <li><strong>Database:</strong> MongoDB Atlas</li>
+            <li><strong>Environment Variables:</strong> dotenv</li>
+            <li><strong>Testing:</strong> Postman</li>
+        </ul>
+
+        <h2>📁 Folder Structure</h2>
+        <pre>/auth-module
+│── /config
+│   ├── db.js                # Database connection file
+│   ├── passportConfig.js    # Passport authentication setup
+│── /models
+│   ├── User.js              # Mongoose schema for User
+│── /routes
+│   ├── authRoutes.js        # Authentication routes (Register, Login, Google OAuth, Logout)
+│── /middlewares
+│   ├── authMiddleware.js    # Middleware to check authentication status
+│── /controllers
+│   ├── authController.js    # Controller handling authentication logic
+│── server.js                # Main server file
+│── .env                     # Environment variables (DO NOT COMMIT)
+│── package.json             # Dependencies and scripts
+        </pre>
+
+        <h2>🛢️ Database Setup & Connection</h2>
+        <h3>🔹 db.js (Database Connection)</h3>
+        <pre><code>import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("✅ MongoDB Connected");
+    } catch (error) {
+        console.error("❌ MongoDB Connection Failed", error);
+        process.exit(1);
+    }
+};
+
+export default connectDB;</code></pre>
+        <p><strong>🔹 Ensure your <code>.env</code> file contains:</strong></p>
+        <pre>MONGO_URI=mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster0.mongodb.net/auth-db</pre>
+
+        <h2>🔑 Authentication Flow</h2>
+        <h3>1️⃣ User Registration & Login (Local)</h3>
+        <ul>
+            <li>Users register/login with an email & password (hashed).</li>
+            <li>Sessions are created using <code>express-session</code>.</li>
+            <li>Middleware verifies authentication before accessing protected routes.</li>
+        </ul>
+
+        <h3>2️⃣ Google OAuth Login (Passport.js)</h3>
+        <ul>
+            <li>Users log in using Google OAuth.</li>
+            <li>If it's the first login, a new user is created in MongoDB without a password.</li>
+            <li>Sessions store the user’s ID for future authentication.</li>
+        </ul>
+
+        <h2>🚀 API Routes & Usage</h2>
+        <table border="1" cellspacing="0" cellpadding="5">
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/api/auth/register</td>
+                <td>Register a new user</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/api/auth/login</td>
+                <td>Login with email & password</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/auth/google</td>
+                <td>Initiate Google OAuth login</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/auth/google/callback</td>
+                <td>Google OAuth callback</td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td>/api/auth/logout</td>
+                <td>Logout user & destroy session</td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td>/api/auth/user</td>
+                <td>Get logged-in user info</td>
+            </tr>
+        </table>
+
+        <h2>🚀 Future Improvements</h2>
+        <ul>
+            <li>Implement <strong>GitHub OAuth</strong> for more authentication options.</li>
+            <li>Improve <strong>security</strong> with <strong>HTTP-only cookies & CSRF protection</strong>.</li>
+            <li>Add <strong>refresh tokens</strong> for better session persistence.</li>
+            <li>Create a <strong>React frontend</strong> for seamless authentication UX.</li>
+        </ul>
+
+        <h2>🎯 Conclusion</h2>
+        <p>This <strong>modular authentication system</strong> is built for reusability and security. You can integrate it into multiple MERN projects with minor modifications. 🚀🔥</p>
+
+    </div>
+</body>
+</html>
